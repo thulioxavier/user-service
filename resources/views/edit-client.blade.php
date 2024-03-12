@@ -1,6 +1,11 @@
 <div>
     <h1 class="text__h1">Editar {{ $client->name }}</h1>
 
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            {{ $error }}
+        @endforeach
+    @endif
     <form action="{{ route('client.update', $client->id) }}" method="POST">
 
         @method('put')

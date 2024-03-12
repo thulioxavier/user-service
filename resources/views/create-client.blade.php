@@ -1,45 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
+<div>
+    <h1 class="text__h1">Criar Novo Cliente</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="../css/app.css" rel="stylesheet">
-    <title>Novo Cliente</title>
-</head>
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            {{ $error }}
+        @endforeach
+    @endif
+    <form action="{{ route('client.store') }}" method="POST">
+        @csrf()
+        <h2>Dados Pessoais</h2>
+        <input type="text" placeholder="Nome Completo" name="name" value="{{ old('name') }}" required>
+        <input type="email" placeholder="E-mail" name="email" value="{{ old('email') }}" required>
+        <input type="text" placeholder="CPF" name="cpf" value="{{ old('cpf') }}" required>
+        <input type="date" placeholder="Data de Nascimento" name="birthdate" value="{{ old('birthdate') }}"required>
+        <label>
+            Ativo
+            <input type="checkbox" name="active" checked="{{ old('active') }}">
+        </label>
 
-<body>
-    <div>
-        <h1 class="text__h1">Criar Novo Cliente</h1>
+        <hr>
+        <h2>Endereço</h2>
 
-        <form action="{{ route('client.store') }}" method="POST">
-            @csrf()
-            <h2>Dados Pessoais</h2>
-            <input type="text" placeholder="Nome Completo" name="name" required class="input">
-            <input type="email" placeholder="E-mail" name="email" required class="input">
-            <input type="text" placeholder="CPF" name="cpf" required class="input">
-            <input type="date" placeholder="Data de Nascimento" name="birthdate" required class="input">
-            <label>
-                Ativo
-                <input type="checkbox" name="active">
-            </label>
+        <input type="number" placeholder="CEP" name="zipcode" value="{{ old('zipcode') }}" required>
+        <input type="text" placeholder="Estado" name="state" value="{{ old('state') }}" required>
+        <input type="text" placeholder="Cidade" name="city" value="{{ old('city') }}" required>
+        <input type="text" placeholder="Rua" name="street" value="{{ old('street') }}" required>
+        <input type="text" placeholder="Número" name="street_number" value="{{ old('street_number') }}" required>
 
-            <hr>
-            <h2>Endereço</h2>
+        <br>
 
-            <input type="number" placeholder="CEP" name="zipcode" required class="input">
-            <input type="text" placeholder="Estado" name="state" required class="input">
-            <input type="text" placeholder="Cidade" name="city" required class="input">
-            <input type="text" placeholder="Rua" name="street" required class="input">
-            <input type="text" placeholder="Número" name="street_number" required class="input">
-
-            <br>
-
-            <button type="submit" class="button"> Salvar </button>
-        </form>
-    </div>
-
-</body>
-
-</html>
+        <button type="submit"> Salvar </button>
+    </form>
+</div>

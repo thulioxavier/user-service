@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Http\Requests\StoreAndUpdateClientRequest;
 use App\Models\Address;
 use App\Models\Client;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ClientController
@@ -16,7 +16,7 @@ class ClientController
         return view('create-client');
     }
 
-    public function store(Request $request, Client $client, Address $address)
+    public function store(StoreAndUpdateClientRequest $request, Client $client, Address $address)
     {
 
         $data = $request->except('_token');
@@ -72,7 +72,7 @@ class ClientController
         return view('edit-client', compact('client'));
     }
 
-    public function update(Request $request, string $id, Client $clientModel, Address $address)
+    public function update(StoreAndUpdateClientRequest $request, string $id, Client $clientModel, Address $address)
     {
 
         $client = $clientModel->where('id', $id)->first();
