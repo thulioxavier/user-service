@@ -20,7 +20,7 @@
 
     <div class="address-info">
         <h4>Endereço</h4>
-        @if ($client->address)
+        @if (property_exists($client, 'address') && $client->address)
             <p><strong>Rua:</strong> {{ $client->address->street }}</p>
             <p><strong>Cidade:</strong> {{ $client->address->city }}</p>
             <p><strong>Estado:</strong> {{ $client->address->state }}</p>

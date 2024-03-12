@@ -2,13 +2,24 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\DTO\CreateClientDTO;
 use App\Http\Requests\StoreAndUpdateClientRequest;
 use App\Models\Address;
 use App\Models\Client;
-use Illuminate\Support\Str;
+use App\Services\ClientService;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 
-class ClientController
+/** @var \App\DTO\CreateClientDTO $make */
+
+
+class ClientController extends BaseController
 {
+
+    public function __construct(
+        protected ClientService $service
+    ) {
+    }
 
     public function create()
     {
@@ -16,48 +27,36 @@ class ClientController
         return view('create-client');
     }
 
-    public function store(StoreAndUpdateClientRequest $request, Client $client, Address $address)
+    public function store(StoreAndUpdateClientRequest $request)
     {
-
-        $data = $request->except('_token');
-        $client_id = Str::uuid();
-
-        $client->create(['id' => $client_id, ...$data]);
-
-        $address->create([
-            'street' => $data['street'],
-            'street_number' => $data['street_number'],
-            'zipcode' => $data['zipcode'],
-            'city' => $data['city'],
-            'state' => $data['state'],
-            'client_id' => $client_id
-        ]);
+        $make = CreateClientDTO::makeFromRequest($request);
+        $this->service->create($make);
 
         return redirect()->route('clients.findAll');
     }
 
-    public function findAll(Client $client)
+    public function findAll(Request $request)
     {
 
-        $result = $client->all();
+        $result = $this->service->findAll($request->filter);
 
         return view('list-clients', [
             'clients' => $result
         ]);
     }
 
-    public function show($id, Client $client)
+    public function show($id)
     {
 
-        $result = $client->find($id);
+        $client = $this->service->findOne($id);
 
-        if (!$result) {
+
+        if (!$client) {
             return redirect()->back();
         }
 
-        return view('show-client', [
-            'client' => $result
-        ]);
+
+        return view('show-client', compact('client'));
     }
 
     public function edit(string $id, Client $clientModel)
@@ -98,15 +97,9 @@ class ClientController
         return redirect()->route('clients.findAll');
     }
 
-    public function destroy(string $id, Client $clientModel)
+    public function destroy(string $id)
     {
-        $client = $clientModel->where('id', $id)->first();
-
-        if (!$client) {
-            return back();
-        }
-
-        $client->delete();
+        $this->service->destroy($id);
 
         return redirect()->route('clients.findAll');
     }

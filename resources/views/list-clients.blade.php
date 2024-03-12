@@ -15,19 +15,19 @@
                 <script>
                     console.log(@json($clients))
                 </script>
-                <tr onclick="window.location='{{ route('client.show', ['id' => $client->id]) }}'">
-                    <td>{{ $client->name }}</td>
-                    <td>{{ $client->email }}</td>
-                    <td>{{ $client->cpf }}</td>
-                    <td>{{ $client->birthdate }}</td>
-                    <td> @checked($client->active) </td>
+                <tr onclick="window.location='{{ route('client.show', ['id' => $client['id']]) }}'">
+                    <td>{{ $client['name'] }}</td>
+                    <td>{{ $client['email'] }}</td>
+                    <td>{{ $client['cpf'] }}</td>
+                    <td>{{ $client['birthdate'] }}</td>
+                    <td> @checked($client['active']) </td>
                     <td>
-                        <form action="{{ route('client.destroy', $client->id) }}" method="POST">
+                        <form action="{{ route('client.destroy', $client['id']) }}" method="POST">
                             @method('delete')
                             @csrf()
                             <button type="submit">Apagar</button>
                         </form>
-                        <a href="{{ route('client.edit', $client->id) }}">Editar</a>
+                        <a href="{{ route('client.edit', $client['id']) }}">Editar</a>
                     </td>
                 </tr>
             @endforeach
