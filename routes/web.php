@@ -7,9 +7,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/create-user', [ClientController::class, 'findById']);
-// Route::get('/create-user', [ClientController::class, 'update']);
-// Route::get('/create-user', [ClientController::class, 'delete']);
-Route::get('/find/clients', [ClientController::class, 'findAll'])->name('clients.findAll');
-Route::get('/create/client', [ClientController::class, 'create'])->name('clent.create');
-Route::post('/create/store', [ClientController::class, 'store'])->name('client.store');
+Route::delete('/client/destroy/{id}', [ClientController::class, 'destroy'])->name(('client.destroy'));
+Route::put('/client/update/{id}', [ClientController::class, 'update'])->name(('client.update'));
+Route::get('/client/{id}/edit', [ClientController::class, 'edit'])->name(('client.edit'));
+Route::get('/client/show/{id}', [ClientController::class, 'show'])->name('client.show');
+Route::get('/clients/find', [ClientController::class, 'findAll'])->name('clients.findAll');
+Route::get('/client/create', [ClientController::class, 'create'])->name('clent.create');
+Route::post('/client/create/store', [ClientController::class, 'store'])->name('client.store');
